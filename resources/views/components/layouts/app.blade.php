@@ -18,14 +18,14 @@
                         <div class="flex items-center gap-3 text-sm">
                             <span class="hidden text-zinc-600 sm:inline">{{ auth()->user()->email }}</span>
                             @if (auth()->user()->is_admin)
-                                <a href="{{ route('accounts.create') }}" class="rounded-md bg-zinc-950 px-3 py-2 font-medium text-white hover:bg-zinc-800">
-                                    Them tai khoan
+                                <a href="{{ route('accounts.create') }}" class="rounded-md bg-emerald-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-emerald-700">
+                                    Thêm
                                 </a>
                             @endif
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button class="rounded-md border border-zinc-300 px-3 py-2 font-medium hover:bg-zinc-50">
-                                    Dang xuat
+                                <button class="rounded-md border border-zinc-300 bg-white px-3 py-2 font-medium text-zinc-700 hover:bg-zinc-50">
+                                    Đăng xuất
                                 </button>
                             </form>
                         </div>
@@ -33,9 +33,9 @@
                 </header>
             @endauth
 
-            <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+            <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
                 @if (session('status'))
-                    <div class="mb-5 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
+                    <div class="mb-5 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800 shadow-sm">
                         {{ session('status') }}
                     </div>
                 @endif
