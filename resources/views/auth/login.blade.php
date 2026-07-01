@@ -1,4 +1,4 @@
-<x-layouts.app title="Dang nhap">
+<x-layouts.app title="Đăng nhập">
     <div class="mx-auto grid min-h-[70vh] max-w-5xl items-center gap-8 lg:grid-cols-[1fr_26rem]">
         <section class="hidden lg:block">
             <div class="max-w-xl">
@@ -12,7 +12,7 @@
                 <div class="mt-8 grid max-w-lg grid-cols-3 gap-3">
                     <div class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm">
                         <div class="text-sm font-semibold text-zinc-950">Encrypted</div>
-                        <div class="mt-1 text-xs text-zinc-500">Password va secret</div>
+                        <div class="mt-1 text-xs text-zinc-500">Password và secret</div>
                     </div>
                     <div class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm">
                         <div class="text-sm font-semibold text-zinc-950">TOTP</div>
@@ -20,7 +20,7 @@
                     </div>
                     <div class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm">
                         <div class="text-sm font-semibold text-zinc-950">Admin</div>
-                        <div class="mt-1 text-xs text-zinc-500">Thêm sửa xoá</div>
+                        <div class="mt-1 text-xs text-zinc-500">Thêm sửa xóa</div>
                     </div>
                 </div>
             </div>

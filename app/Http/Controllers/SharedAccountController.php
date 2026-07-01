@@ -55,7 +55,7 @@ class SharedAccountController extends Controller
 
         SharedAccount::create($data);
 
-        return redirect()->route('accounts.index')->with('status', 'Da them tai khoan.');
+        return redirect()->route('accounts.index')->with('status', 'Đã thêm tài khoản.');
     }
 
     public function edit(SharedAccount $account): View
@@ -86,7 +86,7 @@ class SharedAccountController extends Controller
 
         $account->update($data);
 
-        return redirect()->route('accounts.index')->with('status', 'Da cap nhat tai khoan.');
+        return redirect()->route('accounts.index')->with('status', 'Đã cập nhật tài khoản.');
     }
 
     public function destroy(SharedAccount $account): RedirectResponse
@@ -95,7 +95,7 @@ class SharedAccountController extends Controller
 
         $account->delete();
 
-        return redirect()->route('accounts.index')->with('status', 'Da xoa tai khoan.');
+        return redirect()->route('accounts.index')->with('status', 'Đã xóa tài khoản.');
     }
 
     public function otp(SharedAccount $account): JsonResponse
@@ -159,7 +159,7 @@ class SharedAccountController extends Controller
             $this->totp->generate($secret);
         } catch (InvalidArgumentException) {
             throw ValidationException::withMessages([
-                'two_factor_secret' => '2FA secret khong hop le.',
+                'two_factor_secret' => '2FA secret không hợp lệ.',
             ]);
         }
     }

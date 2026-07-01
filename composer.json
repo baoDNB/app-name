@@ -37,16 +37,16 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
             "@php artisan migrate --force",
-            "npm install --ignore-scripts",
-            "npm run build"
+            "pnpm install --ignore-scripts",
+            "pnpm run build"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd\" \"php -S 127.0.0.1:8000 -t public public/index.php\" \"npm run dev\" --names=server,vite --kill-others"
+            "pnpm exec concurrently -c \"#93c5fd,#c4b5fd\" \"php -S 127.0.0.1:8000 -t public public/index.php\" \"pnpm run dev\" --names=server,vite --kill-others"
         ],
         "dev-win": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd\" \"php -S 127.0.0.1:8000 -t public public/index.php\" \"npm run dev\" --names=server,vite --kill-others"
+            "pnpm exec concurrently -c \"#93c5fd,#c4b5fd\" \"php -S 127.0.0.1:8000 -t public public/index.php\" \"pnpm run dev\" --names=server,vite --kill-others"
         ],
         "test": [
             "@php artisan config:clear --ansi @no_additional_args",

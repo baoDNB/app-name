@@ -31,7 +31,7 @@ class TotpService
         $secret = strtoupper(preg_replace('/[^A-Z2-7]/i', '', $secret));
 
         if ($secret === '') {
-            throw new InvalidArgumentException('2FA secret khong hop le.');
+            throw new InvalidArgumentException('2FA secret không hợp lệ.');
         }
 
         $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
@@ -41,7 +41,7 @@ class TotpService
             $value = strpos($alphabet, $character);
 
             if ($value === false) {
-                throw new InvalidArgumentException('2FA secret khong hop le.');
+                throw new InvalidArgumentException('2FA secret không hợp lệ.');
             }
 
             $bits .= str_pad(decbin($value), 5, '0', STR_PAD_LEFT);

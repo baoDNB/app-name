@@ -4,7 +4,7 @@ const copyText = async (text) => {
 
 const setButtonDone = (button) => {
     const original = button.textContent;
-    button.textContent = 'Da copy';
+    button.textContent = 'Copied';
     window.setTimeout(() => {
         button.textContent = original;
     }, 1200);
@@ -45,10 +45,10 @@ document.addEventListener('click', async (event) => {
 
         if (isHidden) {
             field.value = await fetchPassword(wrapper);
-            revealButton.textContent = 'An';
+            revealButton.textContent = 'Hide';
         } else {
             field.value = field.dataset.hiddenValue;
-            revealButton.textContent = 'Hien';
+            revealButton.textContent = 'Show';
         }
 
         return;

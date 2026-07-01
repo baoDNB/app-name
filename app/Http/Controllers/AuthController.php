@@ -23,7 +23,7 @@ class AuthController extends Controller
 
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()
-                ->withErrors(['email' => 'Email hoac password khong dung.'])
+                ->withErrors(['email' => 'Email hoặc password không đúng.'])
                 ->onlyInput('email');
         }
 
