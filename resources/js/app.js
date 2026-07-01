@@ -10,6 +10,25 @@ const setButtonDone = (button) => {
     }, 1200);
 };
 
+const fetchPassword = async (wrapper) => {
+    if (wrapper.dataset.password) {
+        return wrapper.dataset.password;
+    }
+
+    const response = await fetch(wrapper.dataset.passwordUrl, {
+        headers: { Accept: 'application/json' },
+    });
+
+    if (!response.ok) {
+        throw new Error('Cannot fetch password');
+    }
+
+    const data = await response.json();
+    wrapper.dataset.password = data.password;
+
+    return data.password;
+};
+
 document.addEventListener('click', async (event) => {
     const copyButton = event.target.closest('.copy-btn');
     if (copyButton) {
@@ -20,17 +39,25 @@ document.addEventListener('click', async (event) => {
 
     const revealButton = event.target.closest('.reveal-btn');
     if (revealButton) {
-        const field = revealButton.parentElement.querySelector('.password-field');
-        const isHidden = field.value !== field.dataset.secret;
-        field.value = isHidden ? field.dataset.secret : '************';
-        revealButton.textContent = isHidden ? 'An' : 'Hien';
+        const wrapper = revealButton.closest('[data-password-url]');
+        const field = wrapper.querySelector('.password-field');
+        const isHidden = field.value === field.dataset.hiddenValue;
+
+        if (isHidden) {
+            field.value = await fetchPassword(wrapper);
+            revealButton.textContent = 'An';
+        } else {
+            field.value = field.dataset.hiddenValue;
+            revealButton.textContent = 'Hien';
+        }
+
         return;
     }
 
     const copyPasswordButton = event.target.closest('.copy-password-btn');
     if (copyPasswordButton) {
-        const field = copyPasswordButton.parentElement.querySelector('.password-field');
-        await copyText(field.dataset.secret);
+        const wrapper = copyPasswordButton.closest('[data-password-url]');
+        await copyText(await fetchPassword(wrapper));
         setButtonDone(copyPasswordButton);
         return;
     }
@@ -76,4 +103,3 @@ const tickOtp = () => {
 };
 
 window.setInterval(tickOtp, 1000);
-//

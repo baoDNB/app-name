@@ -13,6 +13,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
+    Route::get('/accounts/{account}/password', [SharedAccountController::class, 'password'])->name('accounts.password');
     Route::get('/accounts/{account}/otp', [SharedAccountController::class, 'otp'])->name('accounts.otp');
     Route::resource('accounts', SharedAccountController::class)->except(['show']);
 });

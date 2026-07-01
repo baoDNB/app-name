@@ -17,6 +17,22 @@ class ExampleTest extends TestCase
         $this->get('/accounts')->assertRedirect('/login');
     }
 
+    public function test_user_password_is_hashed_and_login_still_works(): void
+    {
+        $user = User::factory()->create([
+            'email' => 'member@example.com',
+            'password' => 'plain-login-password',
+        ]);
+
+        $this->assertNotSame('plain-login-password', $user->getRawOriginal('password'));
+        $this->assertTrue(str_starts_with($user->getRawOriginal('password'), '$2y$'));
+
+        $this->post(route('login.store'), [
+            'email' => 'member@example.com',
+            'password' => 'plain-login-password',
+        ])->assertRedirect(route('accounts.index'));
+    }
+
     public function test_authenticated_user_can_view_accounts_and_get_otp(): void
     {
         $user = User::factory()->create();
@@ -31,7 +47,9 @@ class ExampleTest extends TestCase
             ->get('/accounts')
             ->assertOk()
             ->assertSee('example.com')
-            ->assertSee('shared@example.com');
+            ->assertSee('https://example.com')
+            ->assertSee('shared@example.com')
+            ->assertDontSee('secret-password');
 
         $this->actingAs($user)
             ->getJson(route('accounts.otp', $account))
@@ -41,6 +59,14 @@ class ExampleTest extends TestCase
                 ->whereType('otp', 'string')
                 ->whereType('seconds_remaining', 'integer')
                 ->etc());
+
+        $passwordResponse = $this->actingAs($user)
+            ->getJson(route('accounts.password', $account))
+            ->assertOk()
+            ->assertJson(['password' => 'secret-password']);
+
+        $this->assertStringContainsString('no-store', $passwordResponse->headers->get('Cache-Control'));
+        $this->assertNotSame('secret-password', $account->refresh()->getRawOriginal('password'));
     }
 
     public function test_admin_can_create_account_with_encrypted_secrets(): void

@@ -106,19 +106,38 @@ class SharedAccountController extends Controller
         ]);
     }
 
+    public function password(SharedAccount $account): JsonResponse
+    {
+        return response()
+            ->json(['password' => $account->password])
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    }
+
     private function present(SharedAccount $account): array
     {
         return [
             'id' => $account->id,
             'website_domain' => $account->website_domain,
+            'website_url' => $this->websiteUrl($account->website_domain),
             'login' => $account->login,
-            'password' => $account->password,
             'otp' => $this->totp->generate($account->two_factor_secret),
             'seconds_remaining' => $this->totp->secondsRemaining(),
+            'password_url' => route('accounts.password', $account),
             'otp_url' => route('accounts.otp', $account),
             'edit_url' => route('accounts.edit', $account),
             'delete_url' => route('accounts.destroy', $account),
         ];
+    }
+
+    private function websiteUrl(string $domain): string
+    {
+        $domain = trim($domain);
+
+        if (str_starts_with($domain, 'http://') || str_starts_with($domain, 'https://')) {
+            return $domain;
+        }
+
+        return "https://{$domain}";
     }
 
     /**
